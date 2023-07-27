@@ -1,5 +1,7 @@
-import torch
+import torch, os
 from diffusers import StableDiffusionPipeline as SD
+
+SD_MODEL_PATH = os.getenv("SD_MODEL_PATH")
 
 def stable_diffusion(job):
     job_input = job["input"]
