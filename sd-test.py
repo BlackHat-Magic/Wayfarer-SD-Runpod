@@ -29,7 +29,7 @@ def stable_diffusion(job):
         num_inference_steps=steps,
         guidance_scale=guidance,
         num_images_per_prompt=num_images
-    )
+    ).images
     for i, image in enumerate(images):
         image.save(f"image-{i}.png")
 
