@@ -7,9 +7,9 @@ from PIL import Image
 load_dotenv()
 SD_MODEL_PATH = os.getenv("SD_MODEL_PATH")
 SD_MODEL_OPENPOSE = os.getenv("SD_MODEL_OPENPOSE")
-OPENPOSE_CHARSHEET = os.getenv("OPEPONSE_CHARSHEET")
+OPENPOSE_CHARSHEET = os.getenv("OPENPOSE_CHARSHEET")
 
-controlnet_image = Image.open(OPENPOSE_PORTRAIT)
+controlnet_image = Image.open(OPENPOSE_CHARSHEET)
 controlnet = ControlNetModel.from_single_file(SD_MODEL_OPENPOSE)
 pipe = CN.from_single_file(SD_MODEL_PATH, controlnet=controlnet, torch_dtype=torch.float16)
 pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
@@ -33,7 +33,7 @@ def stable_diffusion(job):
     # tiling = job_input["tiling"]
     # sampler_index = job_input["sampler_index"]
 
-    images = openface_pipe(
+    images = pipe(
         prompt,
         controlnet_image,
         negative_prompt=negative_prompt,

@@ -7,7 +7,7 @@ from PIL import Image
 load_dotenv()
 SD_MODEL_PATH = os.getenv("SD_MODEL_PATH")
 SD_MODEL_OPENPOSE = os.getenv("SD_MODEL_OPENPOSE")
-OPENPOSE_PORTRAIT = os.getenv("OPEPONSE_PORTRAIT")
+OPENPOSE_PORTRAIT = os.getenv("OPENPOSE_PORTRAIT")
 
 controlnet_image = Image.open(OPENPOSE_PORTRAIT)
 controlnet = ControlNetModel.from_single_file(SD_MODEL_OPENPOSE)
@@ -33,7 +33,7 @@ def stable_diffusion(job):
     # tiling = job_input["tiling"]
     # sampler_index = job_input["sampler_index"]
 
-    images = openface_pipe(
+    images = pipe(
         prompt,
         controlnet_image,
         negative_prompt=negative_prompt,
