@@ -1,6 +1,5 @@
-import runpod, os
+import runpod, os, torch
 from dotenv import load_dotenv
-from torch import autocast
 from diffusers import StableDiffusionPipeline as SD
 
 load_dotenv()
@@ -35,7 +34,7 @@ def stable_diffusion(job):
         guidance_scale=guidance,
         num_images_per_prompt=num_images
     ).images
-    
+
     return(images)
 
 runpod.serverless.start({"handler": stable_diffusion})
