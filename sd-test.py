@@ -1,4 +1,4 @@
-from torch import autocast
+import torch
 from diffusers import StableDiffusionPipeline as SD
 
 def stable_diffusion(job):
