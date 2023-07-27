@@ -25,7 +25,7 @@ def stable_diffusion(job):
         prompt,
         negative_prompt=negative_prompt,
         height=height,
-        width=wight,
+        width=width,
         num_inference_steps=steps,
         guidance_scale=guidance,
         num_images_per_prompt=num_images
