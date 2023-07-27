@@ -1,9 +1,24 @@
 import runpod, os, torch
 from dotenv import load_dotenv
 from diffusers import StableDiffusionPipeline as SD
+from diffusers import StableDiffusionControlNetPipeline as CN
+from diffusers import ControlNetModel, UniPCMultistepScheduler
+from diffusers.utils import load_image
 
 load_dotenv()
-SD_MODEL_PATH=os.getenv("SD_MODEL_PATH")
+CHARACTER_MODEL_PATH = os.getenv("CHARACTER_MODEL_PATH")
+SD_MODEL_OPENFACE = os.getenv("SD_MODEL_OPENFACE")
+OPENFACE_REFERENCE = os.getenv("OPENFACE_REFERENCE")
+
+# pipe = SD.from_single_file(CHARACTER_MODEL_PATH, torch_dtype=torch.float16)
+# pipe = pipe.to("cuda")
+
+openface_image = load_image(OPENFACE_REFERENCE)
+openface_controlnet = ControlNetMode.from_single_file(SD_MODEL_OPENFACE, torch_dtype=torch.float16)
+openface_pipe = CN.from_single_file(CHARACTER_MODEL_PATH, controlnet=controlnet, torch_dtype=torch.float16)
+openface_pipe.scheduler = UniPCMultistepScheduler.from_config(openface_pipe.scheduler.config)
+openface_pipe.enable_model_cpu_offload()
+openface_pipe.enable_xformers_memory_efficient_attention()
 
 def stable_diffusion(job):
     job_input = job["input"]
@@ -22,10 +37,17 @@ def stable_diffusion(job):
     # tiling = job_input["tiling"]
     # sampler_index = job_input["sampler_index"]
 
-    pipe = SD.from_single_file(SD_MODEL_PATH, torch_dtype=torch.float16)
-    pipe = pipe.to("cuda")
+    # images = pipe(
+    #     prompt,
+    #     negative_prompt=negative_prompt,
+    #     height=height,
+    #     width=width,
+    #     num_inference_steps=steps,
+    #     guidance_scale=guidance,
+    #     num_images_per_prompt=num_images
+    # ).images
 
-    images = pipe(
+    images = openface_pipe(
         prompt,
         negative_prompt=negative_prompt,
         height=height,
