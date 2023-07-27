@@ -32,3 +32,5 @@ def stable_diffusion(job):
     )
     for i, image in enumerate(images):
         image.save(f"image-{i}.png")
+
+stable_diffusion({"input": {}})
