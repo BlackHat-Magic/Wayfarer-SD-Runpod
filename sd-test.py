@@ -20,7 +20,7 @@ def stable_diffusion(job):
     # tiling = job_input["tiling"]
     # sampler_index = job_input["sampler_index"]
 
-    pipe = SD.from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16)
+    pipe = SD.from_single_file(fsck, torch_dtype=torch.float16)
     pipe = pipe.to("cuda")
 
     images = pipe(
