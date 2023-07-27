@@ -35,7 +35,7 @@ def stable_diffusion(job):
         guidance_scale=guidance,
         num_images_per_prompt=num_images
     ).images
-    for i, image in enumerate(images):
-        image.save(f"image-{i}.png")
+    
+    return(images)
 
 runpod.serverless.start({"handler": stable_diffusion})
