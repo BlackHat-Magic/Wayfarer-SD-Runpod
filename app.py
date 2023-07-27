@@ -1,6 +1,10 @@
 import runpod, os
+from dotenv import load_dotenv
 from torch import autocast
 from diffusers import StableDiffusionPipeline as SD
+
+load_dotenv()
+SD_MODEL_PATH=os.getenv("SD_MODEL_PATH")
 
 def stable_diffusion(job):
     job_input = job["input"]
@@ -9,7 +13,7 @@ def stable_diffusion(job):
     negative_prompt = job_input.get("negative_prompt", "bad quality, worst quality, blurry, out of focus, cropped, out of frame, deformed, bad hands, bad anatomy")
     height = job_input.get("height", 512)
     width = job_input.get("width", 512)
-    steps = job_input.get("steps", 15)
+    steps = job_input.get("steps", 30)
     guidance = job_input.get("guidance", 7.5)
     num_images = job_input.get("num_images", 4)
 
@@ -19,21 +23,19 @@ def stable_diffusion(job):
     # tiling = job_input["tiling"]
     # sampler_index = job_input["sampler_index"]
 
-    pipe = SD.from_pretrained("runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16)
+    pipe = SD.from_single_file(SD_MODEL_PATH, torch_dtype=torch.float16)
     pipe = pipe.to("cuda")
 
     images = pipe(
         prompt,
         negative_prompt=negative_prompt,
         height=height,
-        width=wight,
+        width=width,
         num_inference_steps=steps,
         guidance_scale=guidance,
         num_images_per_prompt=num_images
-    )
+    ).images
     for i, image in enumerate(images):
         image.save(f"image-{i}.png")
-    
-    return(images)
 
 runpod.serverless.start({"handler": stable_diffusion})
