@@ -3,3 +3,4 @@ env/
 *.png
 models/*
 img/*
+endpoint_test.py

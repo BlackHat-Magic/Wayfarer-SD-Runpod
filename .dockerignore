@@ -1,0 +1,11 @@
+.dockerignore
+Dockerfile-charsheet
+Dockerfile-portrait
+README.md
+LICENSE.md
+.git
+.gitignore
+env/
+.env.example
+text-input.json
+endpoint_test.py

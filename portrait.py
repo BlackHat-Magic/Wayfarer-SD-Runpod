@@ -1,8 +1,9 @@
-import runpod, os, torch
+import runpod, os, torch, base64
 from dotenv import load_dotenv
 from diffusers import StableDiffusionControlNetPipeline as CN
 from diffusers import ControlNetModel, UniPCMultistepScheduler
 from PIL import Image
+from io import BytesIO
 
 load_dotenv()
 SD_MODEL_PATH = os.getenv("SD_MODEL_PATH")
@@ -33,6 +34,7 @@ def stable_diffusion(job):
     # tiling = job_input["tiling"]
     # sampler_index = job_input["sampler_index"]
 
+    print("Generating Image(s)...")
     images = pipe(
         prompt,
         controlnet_image,
@@ -43,7 +45,14 @@ def stable_diffusion(job):
         guidance_scale=guidance,
         num_images_per_prompt=num_images
     ).images
+
+    send_image = []
+
+    for image in images:
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        send_image.append(base64.b64encode(buffer.getvalue()).decode())
     
-    return(images)
+    return(send_image)
 
 runpod.serverless.start({"handler": stable_diffusion})
