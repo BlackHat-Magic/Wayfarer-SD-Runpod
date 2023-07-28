@@ -1,6 +1,7 @@
 .dockerignore
 Dockerfile-charsheet
 Dockerfile-portrait
+Dockerfile-generic
 README.md
 LICENSE.md
 .git
