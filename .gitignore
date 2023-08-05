@@ -4,3 +4,4 @@ env/
 models/*
 img/*
 endpoint_test.py
+endpoint-tester.py

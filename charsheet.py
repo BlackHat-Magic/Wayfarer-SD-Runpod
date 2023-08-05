@@ -1,8 +1,8 @@
-import runpod, os, torch
 from dotenv import load_dotenv
 from diffusers import StableDiffusionControlNetPipeline as CN
 from diffusers import ControlNetModel, UniPCMultistepScheduler
 from PIL import Image
+import runpod, os, torch
 
 load_dotenv()
 SD_MODEL_PATH = os.getenv("SD_MODEL_PATH")
