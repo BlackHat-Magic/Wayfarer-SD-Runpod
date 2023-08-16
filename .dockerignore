@@ -1,12 +1,8 @@
 .dockerignore
-Dockerfile-charsheet
-Dockerfile-portrait
-Dockerfile-generic
 README.md
 LICENSE.md
 .git
 .gitignore
 env/
 .env.example
-text-input.json
-endpoint_test.py
+test-input.json

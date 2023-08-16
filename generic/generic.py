@@ -6,7 +6,7 @@ from PIL import Image
 from io import BytesIO
 
 load_dotenv()
-SD_MODEL_PATH = os.getenv("SD_MODEL_PATH")
+SD_MODEL_ID = os.getenv("SD_MODEL_ID")
 
 pipe = SD.from_single_file(SD_MODEL_PATH, torch_dtype=torch.float16)
 pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
