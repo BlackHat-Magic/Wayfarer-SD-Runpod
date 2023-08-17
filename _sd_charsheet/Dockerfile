@@ -10,6 +10,6 @@ COPY ./requirements.txt .
 
 COPY _sd_charsheet/charsheet.py .
 
-RUN pip install -r --no-cache-dir requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 CMD [ "python", "-u", "charsheet.py" ]
