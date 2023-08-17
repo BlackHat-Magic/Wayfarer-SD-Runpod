@@ -2,7 +2,7 @@ FROM wayfarer-sd-base
 
 WORKDIR /app
 
-COPY charsheet/*.py .
+COPY generic/*.py .
 
 COPY ./.env .
 
