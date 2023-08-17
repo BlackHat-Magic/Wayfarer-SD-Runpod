@@ -8,4 +8,6 @@ COPY ./models .
 
 COPY _sd_charsheet/charsheet.py .
 
+RUN pip install -r --no-cache-dir requirements.txt
+
 CMD [ "python", "-u", "charsheet.py" ]
