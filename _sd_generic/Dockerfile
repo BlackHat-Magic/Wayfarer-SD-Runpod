@@ -6,6 +6,8 @@ COPY ./.env .
 
 COPY ./models .
 
+COPY ./requirements.txt .
+
 COPY _sd_generic/generic.py .
 
 RUN pip install -r --no-cache-dir requirements.txt
