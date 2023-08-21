@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY ./.env .
 
-COPY ./models/ .
+COPY ./models/ ./models/
+
+COPY ./img/ ./img/
 
 COPY ./requirements.txt .
 
