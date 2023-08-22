@@ -1,6 +1,6 @@
 import runpod, os, torch, base64
 from dotenv import load_dotenv
-from diffusers import DiffusionPipeline as SDXL
+from diffusers import StableDiffusionXLPipeline as SDXL
 from diffusers import UniPCMultistepScheduler
 from PIL import Image
 from io import BytesIO
@@ -10,7 +10,7 @@ SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
 
 pipe = SDXL.from_single_file(
     SDXL_MODEL_PATH, 
-    torch_dtype=torch.float16
+    torch_dtype=torch.float16,
     variant="fp16",
     use_safetensors=True
 )
@@ -35,8 +35,8 @@ def stable_diffusion(job):
 
     prompt = job_input.get("prompt", "A cat using a toaster.")
     negative_prompt = job_input.get("negative_prompt", "bad quality, worst quality, blurry, out of focus, cropped, out of frame, deformed, bad hands, bad anatomy")
-    height = job_input.get("height", 512)
-    width = job_input.get("width", 512)
+    height = job_input.get("height", 1024)
+    width = job_input.get("width", 1024)
     steps = job_input.get("steps", 40)
     end_denoise = job_input.get("end_denoise", 1.0)
     guidance = job_input.get("guidance", 7.5)

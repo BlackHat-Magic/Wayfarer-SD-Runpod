@@ -1,10 +1,16 @@
 FROM python:3.8-slim-buster
 
+# setup
+ARG SD_MODEL_PATH
+
 WORKDIR /app
 
 COPY ./.env .
 
-COPY ./models/ ./models/
+# copy files
+RUN mkdir ./models/
+
+COPY ${SD_MODEL_PATH} ./models/
 
 COPY ./requirements.txt .
 
