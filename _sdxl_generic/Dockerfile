@@ -6,12 +6,10 @@ COPY ./.env .
 
 COPY ./models/ ./models/
 
-COPY ./img/ ./img/
-
 COPY ./requirements.txt .
 
-COPY _sd_portrait/portrait.py .
+COPY _sdxl_generic/generic.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD [ "python", "-u", "portrait.py" ]
+CMD [ "python", "-u", "generic.py" ]
