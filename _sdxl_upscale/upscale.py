@@ -33,7 +33,7 @@ def stable_diffusion(job):
         prompt=prompt,
         image=supersampled,
         num_inference_steps=steps,
-        strength=0.1
+        strength=0.6
     ).images[0]
 
     send_image = []

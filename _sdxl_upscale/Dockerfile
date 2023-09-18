@@ -23,7 +23,7 @@ COPY ${SDXL_REFINER_PATH} ./models/
 
 COPY ./requirements.txt .
 
-COPY ./_sd_upscale/upscale.py .
+COPY ./_sdxl_upscale/upscale.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
