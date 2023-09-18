@@ -5,3 +5,4 @@ models/*
 img/*
 endpoint_test.py
 endpoint-tester.py
+test_input.py
