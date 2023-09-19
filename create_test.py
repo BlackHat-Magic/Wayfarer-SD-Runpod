@@ -2,7 +2,8 @@ from PIL import Image
 import io, json, base64
 
 test_input = {
-    "prompt": "Drab, gloomy, desaturated, depressing, hopeless digital painting portrait of a mid-20s adventurer in with bright blonde hair and vibrant blue eyes, with a scar over his nose, face scar, scar on face medieval setting"
+    "prompt": "Drab, gloomy, desaturated, depressing, hopeless digital painting portrait of a mid-20s adventurer in with bright blonde hair and vibrant blue eyes, with a scar over his nose, face scar, scar on face medieval setting",
+    "model": "openpose"
 }
 
 images = []

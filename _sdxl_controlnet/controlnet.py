@@ -34,8 +34,8 @@ openpose_controlnet = CN.from_pretrained(OPENPOSE_CN_MODEL_PATH, torch_dtype=tor
 def stable_diffusion(job):
     job_input = job["input"]
 
-    image = job_input.get("image", None)
-    image = Image.open(BytesIO(base64.b64decode(value)).convert("RGB"))
+    image = job_input.get("images", None)
+    image = Image.open(BytesIO(base64.b64decode(image[0]))).convert("RGB")
     prompt = job_input.get("prompt", None)
     if(prompt == None):
         return([])
@@ -49,6 +49,8 @@ def stable_diffusion(job):
 
     
     if(not model in ["canny", "depth", "openpose"]):
+        print(model)
+        print("nomodel")
         return([])
     controlnet = {
         "canny": canny_controlnet,
