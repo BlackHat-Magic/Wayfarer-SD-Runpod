@@ -9,9 +9,8 @@ from io import BytesIO
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
 
-pipe = SDXL.from_single_file(SDXL_MODEL_PATH, torch_dtype=torch.float16)
+pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16)
 pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
-pipe.enable_model_cpu_offload()
 pipe.enable_xformers_memory_efficient_attention()
 
 def stable_diffusion(job):

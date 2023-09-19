@@ -17,15 +17,15 @@ OPENPOSE_CN_MODEL_PATH = os.getenv("OPENPOSE_CN_MODEL_PATH")
 # REPLICATE_CN_MODEL_PATH = os.getenv("REPLICATE_CN_MODEL_PATH")
 
 # BLUR_CN_STOP_STEP = int(os.getenv("BLUR_CN_STOP_STEP"))
-CANNY_CN_STOP_STEP = int(os.getenv("CANNY_CN_STOP_STEP"))
-DEPTH_CN_STOP_STEP = int(os.getenv("DEPTH_CN_STOP_STEP"))
+# CANNY_CN_STOP_STEP = int(os.getenv("CANNY_CN_STOP_STEP"))
+# DEPTH_CN_STOP_STEP = int(os.getenv("DEPTH_CN_STOP_STEP"))
 # SCRIBBLE_CN_STOP_STEP = int(os.getenv("SCRIBBLE_CN_STOP_STEP"))
-OPENPOSE_CN_STOP_STEP = int(os.getenv("OPENPOSE_CN_STOP_STEP"))
+# OPENPOSE_CN_STOP_STEP = int(os.getenv("OPENPOSE_CN_STOP_STEP"))
 # REPLICATE_CN_STOP_STEP = int(os.getenv("REPLICATE_CN_STOP_STEP"))
 
 # blur_controlnet = CN.from_single_file(BLUR_CN_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
-canny_controlnet = CN.from_pretrained(CANNY_CN_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
-depth_controlnet = CN.from_pretrained(DEPTH_CN_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
+canny_controlnet = CN.from_pretrained(CANNY_CN_MODEL_PATH, torch_dtype=torch.float16)
+depth_controlnet = CN.from_pretrained(DEPTH_CN_MODEL_PATH, torch_dtype=torch.float16)
 # scribble_controlnet = CN.from_single_file(SCRIBBLE_CN_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
 openpose_controlnet = CN.from_pretrained(OPENPOSE_CN_MODEL_PATH, torch_dtype=torch.float16)
 # replicate_controlnet = CN.from_single_file(REPLICATE_CN_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
@@ -61,7 +61,6 @@ def stable_diffusion(job):
 
     pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16, controlnet=controlnet)
     pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
-    pipe.enable_model_cpu_offload()
     pipe.enable_xformers_memory_efficient_attention()
 
     print("Generating Image(s)...")

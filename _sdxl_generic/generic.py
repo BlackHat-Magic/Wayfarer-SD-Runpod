@@ -1,34 +1,16 @@
 import runpod, os, torch, base64
 from dotenv import load_dotenv
 from diffusers import StableDiffusionXLPipeline as SDXL
-from diffusers import UniPCMultistepScheduler
+from diffusers import UniPCMultistepScheduler as Scheduler
 from PIL import Image
 from io import BytesIO
 
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
 
-pipe = SDXL.from_single_file(
-    SDXL_MODEL_PATH, 
-    torch_dtype=torch.float16,
-    variant="fp16",
-    use_safetensors=True
-)
-pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
-pipe.enable_model_cpu_offload()
+pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
+pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
 pipe.enable_xformers_memory_efficient_attention()
-
-# refiner = SDXL.from_single_file(
-#     SDXL_REFINER_PATH,
-#     text_encoder_2=base.text_encoder_2,
-#     vae=base.vae,
-#     torch_dtype=torch.float16,
-#     variant="fp16"
-#     use_safetensors=True,
-# )
-# refiner.scheduler = UniPCMultistepScheduler.from_config(refiner.scheduler.config)
-# refiner.enable_model_cpu_offload()
-# refiner.enable_xformers_memory_efficient_attention()
 
 def stable_diffusion(job):
     job_input = job["input"]

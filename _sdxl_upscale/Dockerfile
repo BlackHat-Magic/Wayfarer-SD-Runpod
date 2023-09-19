@@ -15,16 +15,14 @@ WORKDIR /app
 COPY ./.env .
 
 # copy files
-RUN mkdir ./models/
-
-COPY ${SDXL_MODEL_PATH} ./models/
-
-COPY ${SDXL_REFINER_PATH} ./models/
-
 COPY ./requirements.txt .
+
+COPY ./_sdxl_upscale/download.py .
 
 COPY ./_sdxl_upscale/upscale.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
+
+RUN python download.py
 
 CMD [ "python", "-u", "upscale.py" ]

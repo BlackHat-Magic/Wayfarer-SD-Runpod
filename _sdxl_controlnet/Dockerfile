@@ -17,12 +17,12 @@ COPY ./.env .
 # copy files
 COPY ./requirements.txt .
 
-COPY _sdxl_generic/download.py .
+COPY ./_sdxl_controlnet/download.py .
 
-COPY _sdxl_generic/generic.py .
+COPY ./_sdxl_controlnet/controlnet.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
 RUN python download.py
 
-CMD [ "python", "-u", "generic.py" ]
+CMD [ "python", "-u", "controlnet.py" ]
