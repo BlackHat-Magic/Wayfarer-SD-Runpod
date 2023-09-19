@@ -37,6 +37,7 @@ def stable_diffusion(job):
     image = job_input.get("images", None)
     image = Image.open(BytesIO(base64.b64decode(image[0]))).convert("RGB")
     prompt = job_input.get("prompt", None)
+    negative_prompt = job_input.get("negative_prompt", "bad quality, worst quality, blurry, out of focus, cropped, out of frame, bad anatomy, bad hands, deformed")
     if(prompt == None):
         return([])
     steps = int(job_input.get("steps", 30))
