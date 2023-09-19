@@ -13,6 +13,7 @@ with Image.open("./preprocessed.png") as image:
     images.append(base64.b64encode(image_binary.getvalue()).decode("utf-8"))
 
 test_input["images"] = images
+wrapper = {"input": test_input}
 
 with open("test_input.json", "w") as json_file:
-    json.dump(test_input, json_file)
+    json.dump(wrapper, json_file)
