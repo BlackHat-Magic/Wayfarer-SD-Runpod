@@ -1,7 +1,7 @@
 from diffusers import StableDiffusionXLControlNetPipeline as SDXL
-from diffusers import DEISMultiStepScheduler as Scheduler
 from diffusers import ControlNetModel as CN
 from dotenv import load_dotenv
+import torch, os
 
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")

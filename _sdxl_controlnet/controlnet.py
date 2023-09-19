@@ -1,7 +1,7 @@
 import runpod, os, torch, base64
 from dotenv import load_dotenv
 from diffusers import StableDiffusionXLControlNetPipeline as SDXL
-from diffusers import DEISMultistepScheduler as Scheduler
+from diffusers import UniPCMultistepScheduler as Scheduler
 from diffusers import ControlNetModel as CN
 from PIL import Image
 from io import BytesIO
@@ -61,6 +61,7 @@ def stable_diffusion(job):
 
     pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16, controlnet=controlnet)
     pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
+    pipe.enable_model_cpu_offload()
     pipe.enable_xformers_memory_efficient_attention()
 
     print("Generating Image(s)...")

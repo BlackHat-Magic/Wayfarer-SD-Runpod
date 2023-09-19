@@ -8,4 +8,4 @@ docker buildx build --no-cache \
     --build-arg "CANNY_CN_MODEL_PATH=$CANNY_CN_MODEL_PATH" \
     --build-arg "DEPTH_CN_MODEL_PATH=$DEPTH_CN_MODEL_PATH" \
     --build-arg "OPENPOSE_CN_MODEL_PATH=$OPENPOSE_CN_MODEL_PATH" \
-    -f ./_sdxl_generic/Dockerfile .
+    -f ./_sdxl_controlnet/Dockerfile .
