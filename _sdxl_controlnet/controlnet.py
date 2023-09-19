@@ -71,7 +71,7 @@ def stable_diffusion(job):
         height=height,
         width=width,
         num_inference_steps=steps,
-        denoising_end=end_denoise,
+        # denoising_end=end_denoise,
         guidance_scale=guidance,
         num_images_per_prompt=num_images,
         image = image,
