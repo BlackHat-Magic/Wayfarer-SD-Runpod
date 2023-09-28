@@ -22,4 +22,3 @@ if(SDXL_REFINER_PATH != None and SDXL_REFINER_PATH != ""):
         text_encoder_2=pipe.text_encoder_2,
         vae=pipe.vae
     )
-    refiner.enable_xformers_memory_efficient_attention()
