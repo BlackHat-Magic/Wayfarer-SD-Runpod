@@ -15,7 +15,13 @@ canny_controlnet = CN.from_pretrained(CANNY_CN_MODEL_PATH, torch_dtype=torch.flo
 depth_controlnet = CN.from_pretrained(DEPTH_CN_MODEL_PATH, torch_dtype=torch.float16)
 openpose_controlnet = CN.from_pretrained(OPENPOSE_CN_MODEL_PATH, torch_dtype=torch.float16)
 
-pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16, controlnet=canny_controlnet)
+pipe = SDXL.from_pretrained(
+    SDXL_MODEL_PATH, 
+    torch_dtype=torch.float16, 
+    variant="fp16",
+    use_safetensors=True,
+    controlnet=canny_controlnet
+)
 if(SDXL_REFINER_PATH != None and SDXL_REFINER_PATH != ""):
     refiner = Refiner.from_pretrained(
         SDXL_REFINER_PATH,
