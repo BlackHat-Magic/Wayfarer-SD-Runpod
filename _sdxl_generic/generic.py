@@ -72,6 +72,7 @@ def stable_diffusion(job):
             prompt=prompt,
             num_inference_steps=steps,
             denoising_start=end_denoise,
+            num_images_per_prompt=num_images,
             image=unrefined
         ).images
     else:
