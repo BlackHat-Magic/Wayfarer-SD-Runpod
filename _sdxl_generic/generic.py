@@ -1,6 +1,7 @@
 import runpod, os, torch, base64
 from dotenv import load_dotenv
 from diffusers import StableDiffusionXLPipeline as SDXL
+from diffusers import DiffusionPipeline as Refiner
 from diffusers import UniPCMultistepScheduler as Scheduler
 from PIL import Image
 from io import BytesIO
@@ -19,7 +20,7 @@ pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
 pipe.enable_xformers_memory_efficient_attention()
 
 if(SDXL_REFINER_PATH != None != SDXL_REFINER_PATH != ""):
-    refiner = SDXL.from_pretrained(
+    refiner = Refiner.from_pretrained(
         SDXL_REFINER_PATH,
         torch_dtype=torch.float16,
         variant="fp16",
@@ -55,23 +56,34 @@ def stable_diffusion(job):
     # sampler_index = job_input["sampler_index"]
 
     print("Generating Image(s)...")
-    unrefined = pipe(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        height=height,
-        width=width,
-        num_inference_steps=steps,
-        denoising_end=end_denoise,
-        guidance_scale=guidance,
-        num_images_per_prompt=num_images,
-        output_type="latent"
-    ).images
-    refined = refiner(
-        prompt=prompt,
-        num_inference_steps=steps,
-        denoising_start=end_denoise,
-        image=unrefined
-    ).images
+    if(refiner):
+        unrefined = pipe(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            height=height,
+            width=width,
+            num_inference_steps=steps,
+            denoising_end=end_denoise,
+            guidance_scale=guidance,
+            num_images_per_prompt=num_images,
+            output_type="latent"
+        ).images
+        refined = refiner(
+            prompt=prompt,
+            num_inference_steps=steps,
+            denoising_start=end_denoise,
+            image=unrefined
+        ).images
+    else:
+        refined = pipe(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            height=height,
+            width=width,
+            num_inference_steps=steps,
+            guidance_scale=guidance,
+            num_images_per_prompt=num_images,
+        ).images
 
     send_image = []
 
