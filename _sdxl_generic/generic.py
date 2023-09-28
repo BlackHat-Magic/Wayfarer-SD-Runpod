@@ -20,7 +20,7 @@ def stable_diffusion(job):
     height = job_input.get("height", 1024)
     width = job_input.get("width", 1024)
     steps = job_input.get("steps", 40)
-    end_denoise = job_input.get("end_denoise", 1.0)
+    end_denoise = job_input.get("end_denoise", 0.8)
     guidance = job_input.get("guidance", 7.5)
     num_images = job_input.get("num_images", 4)
 
@@ -39,18 +39,19 @@ def stable_diffusion(job):
         num_inference_steps=steps,
         denoising_end=end_denoise,
         guidance_scale=guidance,
-        num_images_per_prompt=num_images
+        num_images_per_prompt=num_images,
+        output_type="latent"
     ).images
-    # refined = refiner(
-    #     prompt=prompt,
-    #     num_inference_steps=steps,
-    #     denoising_start=end_denoise,
-    #     image=unrefined
-    # ).images
+    refined = refiner(
+        prompt=prompt,
+        num_inference_steps=steps,
+        denoising_start=end_denoise,
+        image=unrefined
+    ).images
 
     send_image = []
 
-    for image in unrefined:
+    for image in refined:
         buffer = BytesIO()
         image.save(buffer, format="PNG")
         send_image.append(base64.b64encode(buffer.getvalue()).decode())
