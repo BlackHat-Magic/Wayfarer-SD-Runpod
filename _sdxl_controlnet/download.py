@@ -30,5 +30,5 @@ if(SDXL_REFINER_PATH != None and SDXL_REFINER_PATH != ""):
         use_safetensors=True,
         text_encoder_2=pipe.text_encoder_2,
         vae=pipe.vae
-    ).to("cuda")
+    )
     refiner.enable_xformers_memory_efficient_attention()
