@@ -1,4 +1,5 @@
 from diffusers import StableDiffusionXLPipeline as SDXL
+from diffusers import DiffusionPipeline as SDXL
 from dotenv import load_dotenv
 import torch, os
 
