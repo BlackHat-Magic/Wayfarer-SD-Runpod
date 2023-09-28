@@ -65,14 +65,14 @@ def stable_diffusion(job):
             num_inference_steps=steps,
             denoising_end=end_denoise,
             guidance_scale=guidance,
-            num_images_per_prompt=num_images,
+            # num_images_per_prompt=num_images,
             output_type="latent"
         ).images
         refined = refiner(
             prompt=prompt,
             num_inference_steps=steps,
             denoising_start=end_denoise,
-            num_images_per_prompt=num_images,
+            # num_images_per_prompt=num_images,
             image=unrefined
         ).images
     else:
