@@ -6,7 +6,7 @@ load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
 SDXL_REFINER_PATH = os.getenv("SDXL_REFINER_PATH")
 
-pipe = Upscale.from_pretrained(UPSCALE_MODEL, torch_dtype=torch.float16)
+pipe = Upscale.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16)
 if(SDXL_REFINER_PATH != None and SDXL_REFINER_PATH != ""):
     refiner = Refiner.from_pretrained(
         SDXL_REFINER_PATH,
