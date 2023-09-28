@@ -25,12 +25,12 @@ if(SDXL_REFINER_PATH != None != SDXL_REFINER_PATH != ""):
         torch_dtype=torch.float16,
         variant="fp16",
         use_safetensors=True,
-        text_encoder=pipe.text_encoder,
+        # text_encoder=pipe.text_encoder,
         text_encoder_2=pipe.text_encoder_2,
         vae=pipe.vae,
-        tokenizer=pipe.tokenizer,
-        tokenizer_2=pipe.tokenizer_2,
-        scheduler=pipe.scheduler
+        # tokenizer=pipe.tokenizer,
+        # tokenizer_2=pipe.tokenizer_2,
+        # scheduler=pipe.scheduler
     ).to("cuda")
     refiner.enable_xformers_memory_efficient_attention()
 
@@ -65,14 +65,14 @@ def stable_diffusion(job):
             num_inference_steps=steps,
             denoising_end=end_denoise,
             guidance_scale=guidance,
-            # num_images_per_prompt=num_images,
+            num_images_per_prompt=num_images,
             output_type="latent"
         ).images
         refined = refiner(
             prompt=prompt,
             num_inference_steps=steps,
             denoising_start=end_denoise,
-            # num_images_per_prompt=num_images,
+            num_images_per_prompt=num_images,
             image=unrefined
         ).images
     else:
