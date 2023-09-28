@@ -1,5 +1,5 @@
 from diffusers import StableDiffusionXLPipeline as SDXL
-from diffusers import DiffusionPipeline as SDXL
+from diffusers import DiffusionPipeline as Refiner
 from dotenv import load_dotenv
 import torch, os
 

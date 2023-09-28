@@ -1,6 +1,7 @@
 import runpod, os, torch, base64
 from dotenv import load_dotenv
 from diffusers import StableDiffusionXLControlNetPipeline as SDXL
+from diffusers import DiffusionPipeline as Refiner
 from diffusers import UniPCMultistepScheduler as Scheduler
 from diffusers import ControlNetModel as CN
 from PIL import Image
@@ -8,6 +9,7 @@ from io import BytesIO
 
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
+SDXL_REFINER_PATH = os.getenv("SDXL_REFINER_PATH")
 
 # BLUR_CN_MODEL_PATH = os.getenv("BLUR_CN_MODEL_PATH")
 CANNY_CN_MODEL_PATH = os.getenv("CANNY_CN_MODEL_PATH")
@@ -30,6 +32,16 @@ depth_controlnet = CN.from_pretrained(DEPTH_CN_MODEL_PATH, torch_dtype=torch.flo
 openpose_controlnet = CN.from_pretrained(OPENPOSE_CN_MODEL_PATH, torch_dtype=torch.float16)
 # replicate_controlnet = CN.from_single_file(REPLICATE_CN_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
 
+if(SDXL_REFINER_PATH != None and SDXL_REFINER_PATH != ""):
+    refiner = Refiner.from_pretrained(
+        SDXL_REFINER_PATH,
+        torch_dtype=torch.float16,
+        variant="fp16",
+        use_safetensors=True,
+        text_encoder_2=pipe.text_encoder_2,
+        vae=pipe.vae
+    ).to("cuda")
+    refiner.enable_xformers_memory_efficient_attention()
 
 def stable_diffusion(job):
     job_input = job["input"]
@@ -46,10 +58,9 @@ def stable_diffusion(job):
     model = job_input.get("model", None)
     height = job_input.get("height", 1024)
     width = job_input.get("width", 1024)
-    end_denoise = job_input.get("end_denoise", 1.0)
+    end_denoise = job_input.get("end_denoise", 0.8)
     guidance = job_input.get("guidance", 7.5)
     num_images = job_input.get("num_images", 4)
-
     
     if(not model in ["canny", "depth", "openpose"]):
         print(model)
@@ -61,7 +72,12 @@ def stable_diffusion(job):
         "openpose": openpose_controlnet
     }[model]
 
-    pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16, controlnet=controlnet)
+    pipe = SDXL.from_pretrained(
+        SDXL_MODEL_PATH, 
+        torch_dtype=torch.float16, 
+        controlnet=controlnet
+    )
+
     pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
     pipe.enable_model_cpu_offload()
     pipe.enable_xformers_memory_efficient_attention()
