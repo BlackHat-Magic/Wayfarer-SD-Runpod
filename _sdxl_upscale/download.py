@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from diffusers import StableDiffusionXLImg2ImgPipeline as SDXL
+from diffusers import DiffusionPipeline as Refiner
 import torch, os
 
 load_dotenv()
