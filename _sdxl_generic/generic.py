@@ -25,12 +25,8 @@ if(SDXL_REFINER_PATH != None != SDXL_REFINER_PATH != ""):
         torch_dtype=torch.float16,
         variant="fp16",
         use_safetensors=True,
-        # text_encoder=pipe.text_encoder,
         text_encoder_2=pipe.text_encoder_2,
-        vae=pipe.vae,
-        # tokenizer=pipe.tokenizer,
-        # tokenizer_2=pipe.tokenizer_2,
-        # scheduler=pipe.scheduler
+        vae=pipe.vae
     ).to("cuda")
     refiner.enable_xformers_memory_efficient_attention()
 
