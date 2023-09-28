@@ -58,7 +58,10 @@ def stable_diffusion(job):
     model = job_input.get("model", None)
     height = job_input.get("height", 1024)
     width = job_input.get("width", 1024)
-    end_denoise = job_input.get("end_denoise", 0.8)
+    if(refiner):
+        end_denoise = job_input.get("end_denoise", 0.8)
+    else:
+        end_denoise = 1.0
     guidance = job_input.get("guidance", 7.5)
     num_images = job_input.get("num_images", 4)
     
@@ -75,7 +78,9 @@ def stable_diffusion(job):
     pipe = SDXL.from_pretrained(
         SDXL_MODEL_PATH, 
         torch_dtype=torch.float16, 
-        controlnet=controlnet
+        controlnet=controlnet,
+        use_safetensors=True,
+        variant="fp16"
     )
 
     pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
@@ -83,22 +88,43 @@ def stable_diffusion(job):
     pipe.enable_xformers_memory_efficient_attention()
 
     print("Generating Image(s)...")
-    images = pipe(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        height=height,
-        width=width,
-        num_inference_steps=steps,
-        # denoising_end=end_denoise,
-        guidance_scale=guidance,
-        num_images_per_prompt=num_images,
-        image = image,
-        controlnet_conditioning_scale=1.0
-    ).images
+    if(refiner):
+        unrefined = pipe(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            height=height,
+            width=width,
+            num_inference_steps=steps,
+            denoising_end=end_denoise,
+            guidance_scale=guidance,
+            num_images_per_prompt=num_images,
+            image = image,
+            controlnet_conditioning_scale=1.0,
+            output_type="latent"
+        ).images
+        refined = refiner(
+            prompt=prompt,
+            num_inference_steps=steps,
+            denoising_start=end_denoise,
+            num_images_per_prompt=num_images,
+            image=unrefined
+        )
+    else:
+        unrefined = pipe(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            height=height,
+            width=width,
+            num_inference_steps=steps,
+            guidance_scale=guidance,
+            num_images_per_prompt=num_images,
+            image = image,
+            controlnet_conditioning_scale=1.0
+        ).images
 
     send_image = []
 
-    for image in images:
+    for image in refined:
         with BytesIO() as image_binary:
             image.save(image_binary, format="PNG")
             send_image.append(base64.b64encode(image_binary.getvalue()).decode())
