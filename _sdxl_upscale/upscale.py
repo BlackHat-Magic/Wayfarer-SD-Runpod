@@ -49,7 +49,7 @@ def stable_diffusion(job):
             image=supersampled,
             num_inference_steps=steps,
             denoising_end=end_denoise,
-            strength=0.6,
+            strength=0.4,
             output_type="latent"
         ).images[0]
         refined = refiner(
