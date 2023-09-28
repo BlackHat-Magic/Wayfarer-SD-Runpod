@@ -7,10 +7,28 @@ from io import BytesIO
 
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
+SDXL_REFINER_PATH = os.getenv("SDXL_REFINER_PATH")
 
-pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16, use_safetensors=True)
+pipe = SDXL.from_pretrained(
+    SDXL_MODEL_PATH, 
+    torch_dtype=torch.float16, 
+    variant = "fp16",
+    use_safetensors=True
+).to("cuda")
 pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
 pipe.enable_xformers_memory_efficient_attention()
+
+if(SDXL_REFINER_PATH != None != SDXL_REFINER_PATH != ""):
+    refiner = SDXL.from_pretrained(
+        SDXL_REFINER_PATH,
+        text_encoder_2=pipe.text_encoder_2,
+        vae=pipe.vae,
+        torch_dtype=torch.float16,
+        variant="fp16",
+        use_safetensors=True
+    ).to("cuda")
+    refiner.scheduler = Scheduler.from_config(refiner.scheduler.config)
+    refiner.enable_xformers_memory_efficient_attention()
 
 def stable_diffusion(job):
     job_input = job["input"]
@@ -20,7 +38,10 @@ def stable_diffusion(job):
     height = job_input.get("height", 1024)
     width = job_input.get("width", 1024)
     steps = job_input.get("steps", 40)
-    end_denoise = job_input.get("end_denoise", 0.8)
+    if(refiner):
+        end_denoise = job_input.get("end_denoise", 0.8)
+    else:
+        end_denoise = 1.0
     guidance = job_input.get("guidance", 7.5)
     num_images = job_input.get("num_images", 4)
 
