@@ -15,9 +15,13 @@ pipe = SDXL.from_pretrained(
 if(SDXL_REFINER_PATH != None and SDXL_REFINER_PATH != ""):
     refiner = SDXL.from_pretrained(
         SDXL_REFINER_PATH,
-        text_encoder_2=pipe.text_encoder_2,
-        vae=pipe.vae,
         torch_dtype=torch.float16,
         variant="fp16",
-        use_safetensors=True
+        use_safetensors=True,
+        text_encoder=pipe.text_encoder,
+        text_encoder_2=pipe.text_encoder_2,
+        vae=pipe.vae,
+        tokenizer=pipe.tokenizer,
+        tokenizer_2=pipe.tokenizer_2,
+        scheduler=pipe.scheduler
     )
