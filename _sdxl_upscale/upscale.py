@@ -9,6 +9,7 @@ from io import BytesIO
 
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
+SDXL_REFINER_PATH = os.getenv("SDXL_REFINER_PATH")
 
 pipe = SDXL.from_pretrained(SDXL_MODEL_PATH, torch_dtype=torch.float16)
 pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
