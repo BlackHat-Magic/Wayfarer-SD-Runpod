@@ -57,7 +57,7 @@ def stable_diffusion(job):
             prompt=prompt,
             num_inference_steps=steps,
             denoising_start=end_denoise,
-            image=refined
+            image=unrefined
         ).images[0]
     else:
         refined = pipe(
