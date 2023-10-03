@@ -34,7 +34,7 @@ def stable_diffusion(job):
     prompt = job_input.get("prompt", None)
     if(prompt == None):
         return([])
-    steps = int(job_input.get("steps", 30))
+    steps = int(job_input.get("steps", 40))
     if(refiner):
         end_denoise = job_input.get("end_denoise", 0.8)
     else:
@@ -59,6 +59,13 @@ def stable_diffusion(job):
             denoising_start=end_denoise,
             image=refined
         ).images[0]
+    else:
+        refined = pipe(
+            prompt=prompt,
+            image=supersampled,
+            num_inference_steps=steps,
+            strength=0.4,
+        )
 
     send_image = []
 
