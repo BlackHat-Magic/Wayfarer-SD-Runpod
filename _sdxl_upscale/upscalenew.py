@@ -1,6 +1,6 @@
 from diffusers import StableDiffusionUpscalePipeline as SD
 from io import BytesIO
-import torch, runpod, base64
+import torch, runpod, base64, os
 from dotenv import load_dotenv
 
 load_dotenv()
