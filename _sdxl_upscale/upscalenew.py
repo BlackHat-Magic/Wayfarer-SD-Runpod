@@ -1,8 +1,9 @@
 from diffusers import StableDiffusionUpscalePipeline as SD
 from io import BytesIO
 import torch, runpod, base64
+from dotenv import load_dotenv
 
-load_dotenv
+load_dotenv()
 SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH")
 
 pipe = SD.from_pretrained(SD_UPSCALE_PATH).to("cuda")
