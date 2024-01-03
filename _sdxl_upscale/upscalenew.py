@@ -5,8 +5,8 @@ import torch, runpod, base64
 load_dotenv
 SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH")
 
-pipe = SD.from_pretrained(SD_UPSCALE_PATH)
-
+pipe = SD.from_pretrained(SD_UPSCALE_PATH).to("cuda")
+pipe.enable_xformers_memory_efficient_attention()
 
 def stable_diffusion(job):
     job_input = job["input"]
