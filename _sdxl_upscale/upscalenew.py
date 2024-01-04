@@ -2,10 +2,10 @@ from diffusers import StableDiffusionUpscalePipeline as SD
 from io import BytesIO
 import torch, runpod, base64, os
 from dotenv import load_dotenv
-from PIL import image
+from PIL import Image
 
 load_dotenv()
-SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH")
+SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH", torch_dtype=torch.float16)
 
 pipe = SD.from_pretrained(SD_UPSCALE_PATH).to("cuda")
 pipe.enable_xformers_memory_efficient_attention()
