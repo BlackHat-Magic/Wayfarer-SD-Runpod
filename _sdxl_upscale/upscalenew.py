@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 from PIL import Image
 
 load_dotenv()
-SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH", torch_dtype=torch.float16)
+SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH")
 
-pipe = SD.from_pretrained(SD_UPSCALE_PATH).to("cuda")
+pipe = SD.from_pretrained(SD_UPSCALE_PATH, torch_dtype=torch.float16).to("cuda")
 pipe.enable_xformers_memory_efficient_attention()
 
 def stable_diffusion(job):
