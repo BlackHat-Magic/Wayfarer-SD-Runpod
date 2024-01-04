@@ -2,6 +2,7 @@ from diffusers import StableDiffusionUpscalePipeline as SD
 from io import BytesIO
 import torch, runpod, base64, os
 from dotenv import load_dotenv
+from PIL import image
 
 load_dotenv()
 SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH")
