@@ -71,3 +71,5 @@ def esrgan(job):
     
 
     return(send_image)
+
+runpod.serverless.start({"handler": esrgan})
