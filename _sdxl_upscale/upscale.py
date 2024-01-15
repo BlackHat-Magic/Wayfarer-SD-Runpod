@@ -47,7 +47,10 @@ def esrgan(job):
     image = job_input.get("image", None)
     if(not image):
         return([])
-    image = cv2.imdecode(numpy.frombuffer(base64.b64decode(image), numpy.uint8), cv2.IMREAD_COLOR)
+    with BytesIO as image_binary:
+        pil_png = Image.open(BytesIO(base64.b64decode(image))).convert("RGB")
+        pil_png.save(image_binary)
+        image = cv2.imread(image_binary)
     model = RRDBNet(
         num_in_ch=3, 
         num_out_ch=3, 
