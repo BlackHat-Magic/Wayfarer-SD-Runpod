@@ -39,6 +39,7 @@
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from realesrgan import RealESRGANer
 from io import BytesIO
+from PIL import Image
 import base64, cv2, numpy, runpod
 
 def esrgan(job):
@@ -47,6 +48,13 @@ def esrgan(job):
     image = job_input.get("image", None)
     if(not image):
         return([])
+    pil_png = Image.open(BytesIO(base64.b64decode(image))).conver("RGB")
+    with BytesIO() as image_binary:
+        pil_png.save(image_binary, format="PNG")
+        image_binary.seek(0)
+        image_data = image_binary.read()
+        image_array = numpy.frombuffer(image_data, dtype=np.uint8)
+        image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
     image = cv2.imdecode(numpy.frombuffer(base64.b64decode(image), numpy.uint8), cv2.IMREAD_COLOR)
     model = RRDBNet(
         num_in_ch=3, 
@@ -65,7 +73,7 @@ def esrgan(job):
     )
     output, _ = upsampler.enhance(image)
 
-    with BytesIO as image_binary:
+    with BytesIO() as image_binary:
         cv2.imwrite(image_binary, output)
         send_image = [base64.b64encode(image_binary.getvalue()).decode()]
     
