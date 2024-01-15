@@ -58,7 +58,7 @@ def esrgan(job):
     )
     upsampler = RealESRGANer(
         scale=scale, 
-        model_path="/workspace/RealESRGAN_x4plus.pth", 
+        model_path="./weights/RealESRGAN_x4plus.pth", 
         dni_weight=None, 
         model=model, 
         half=True
