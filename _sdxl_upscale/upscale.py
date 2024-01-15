@@ -46,7 +46,7 @@ def esrgan(job):
     job_input = job["input"]
     scale = int(job_input.get("scale", 4))
     image = job_input.get("image", None)
-    if(iamge == None):
+    if(image == None):
         return([])
     pil_png = Image.open(BytesIO(base64.b64decode(image))).convert("RGB")
     with BytesIO() as image_binary:
