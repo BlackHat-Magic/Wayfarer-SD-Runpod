@@ -48,7 +48,7 @@ def esrgan(job):
     image = job_input.get("image", None)
     if(not image):
         return([])
-    pil_png = Image.open(BytesIO(base64.b64decode(image))).conver("RGB")
+    pil_png = Image.open(BytesIO(base64.b64decode(image))).convert("RGB")
     with BytesIO() as image_binary:
         pil_png.save(image_binary, format="PNG")
         image_binary.seek(0)
