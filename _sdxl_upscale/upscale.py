@@ -39,7 +39,7 @@
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from realesrgan import RealESRGANer
 from io import BytesIO
-import cv2, numpy
+import base64, cv2, numpy, runpod
 
 def esrgan(job):
     job_input = job["input"]
