@@ -63,7 +63,7 @@ def esrgan(job):
         model=model, 
         half=True
     )
-    output, _ = upsampler.enhance(input)
+    output, _ = upsampler.enhance(image)
 
     with BytesIO as image_binary:
         cv2.imwrite(image_binary, output)
