@@ -64,7 +64,7 @@ def esrgan(job):
         model_path="./weights/RealESRGAN_x4plus.pth", 
         dni_weight=None, 
         model=model, 
-        half=True
+        half=False
     )
     output, _ = upsampler.enhance(image)
 
