@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.9-slim-bullseye
 
 # setup
 ARG SDXL_MODEL_PATH
@@ -17,15 +17,9 @@ COPY ./.env .
 # copy files
 COPY ./requirements.txt .
 
-COPY ./_sdxl_upscale/download.py .
-
-COPY ./_sdxl_upscale/upscale.py .
-
-RUN pip install "git+https://github.com/BlackHat-Magic/BasicSR-Fixed-transforms#egg=basicsr"
+COPY ./_esrgan/upscale.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
-
-# RUN python download.py
 
 RUN mkdir weights
 
