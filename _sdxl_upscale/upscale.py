@@ -49,7 +49,7 @@ def esrgan(job):
     if(image == None):
         return([])
     pil_png = Image.open(BytesIO(base64.b64decode(image))).convert("RGB")
-    pil_png.sace("image.png")
+    pil_png.save("image.png")
     image = cv2.imread("image.png")
     model = RRDBNet(
         num_in_ch=3, 
