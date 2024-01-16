@@ -69,7 +69,7 @@ def esrgan(job):
     output, _ = upsampler.enhance(image)
 
     with BytesIO() as image_binary:
-        _, encoded_image = cv2.imencode(".png", image)
+        _, encoded_image = cv2.imencode(".png", output)
         image_binary.write(encoded_image.tobytes())
         send_image = [base64.b64encode(image_binary.getvalue()).decode()]
     
