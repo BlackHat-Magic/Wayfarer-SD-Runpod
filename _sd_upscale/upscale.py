@@ -3,7 +3,7 @@ from diffusers import DDPMScheduler as Scheduler
 from diffusers import ControlNetModel as CN
 from dotenv import load_dotenv
 from PIL import Image
-import base64, io, numpy, os, torch
+import base64, io, numpy, os, torch, runpod
 
 load_dotenv()
 SD_UPSCALE_PATH = os.getenv("SD_UPSCALE_PATH")
@@ -34,7 +34,7 @@ def stable_diffusion(job):
     strength = job_input.get("strength", 1.0)
     scale = job_input.get("scale", 2.0)
 
-    png = Image.open(BytesIO(base64.b64decode(image))).convert("RGB")
+    png = Image.open(io.BytesIO(base64.b64decode(image))).convert("RGB")
     supersampled = png.resize((int(png.width * 2), int(png.height * 2)), Image.LANCZOS)
     width, height = supersampled.size
 
@@ -49,11 +49,11 @@ def stable_diffusion(job):
         strength=strength,
         width=width,
         height=height,
-    )
+    ).images[0]
 
     send_image = []
 
-    with BytesIO() as image_binary:
+    with io.BytesIO() as image_binary:
         refined.save(image_binary, format="PNG")
         send_image.append(base64.b64encode(image_binary.getvalue()).decode())
     
