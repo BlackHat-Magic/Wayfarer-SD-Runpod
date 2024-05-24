@@ -1,4 +1,4 @@
-from diffusers import StableDiffusionXLInpaintPipelineas Inpaint
+from diffusers import StableDiffusionXLInpaintPipeline as Inpaint
 from diffusers import StableDiffusionXLImg2ImgPipeline as SDXL
 from diffusers import DPMSolverMultistepScheduler as Scheduler
 from dotenv import load_dotenv
