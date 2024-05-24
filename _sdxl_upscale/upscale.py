@@ -6,7 +6,7 @@ from PIL import Image
 import base64, io, numpy, os, torch, runpod
 
 load_dotenv()
-SDXL_MODEL_PATH = os.getenv("SD_UPSCALE_PATH")
+SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
 
 pipe = SDXL.from_pretrained(
     SDXL_MODEL_PATH, 
