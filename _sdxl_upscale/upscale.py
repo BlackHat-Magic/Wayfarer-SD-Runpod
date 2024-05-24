@@ -8,15 +8,15 @@ import base64, io, numpy, os, torch, runpod
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
 
-pipe = SDXL.from_pretrained(
-    SDXL_MODEL_PATH, 
-    torch_dtype=torch.float16,
-    variant="fp16",
-).to("cuda")
-pipe.enable_xformers_memory_efficient_attention()
-pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
-
 def stable_diffusion(job):
+    pipe = SDXL.from_pretrained(
+        SDXL_MODEL_PATH, 
+        torch_dtype=torch.float16,
+        variant="fp16",
+    ).to("cuda")
+    # pipe.enable_xformers_memory_efficient_attention()
+    pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
+
     job_input = job["input"]
 
     image = job_input.get("image", None)
@@ -114,7 +114,7 @@ def stable_diffusion(job):
         torch_dtype=torch.float16,
         variant="fp16",
     ).to("cuda")
-    pipe.enable_xformers_memory_efficient_attention()
+    # pipe.enable_xformers_memory_efficient_attention()
     pipe.scheduler = Scheduler.from_config(pipe.scheduler.config)
 
     # generate vertical seam mask
