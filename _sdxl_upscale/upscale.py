@@ -136,7 +136,7 @@ def stable_diffusion(job):
             tile = intermediate_image.crop((left, top, right, bottom))
 
             with torch.no_grad():
-                processed_tile = inpaint_pipeline(
+                processed_tile = pipe(
                     prompt="",
                     num_inference_steps=steps,
                     image=tile,
@@ -178,7 +178,7 @@ def stable_diffusion(job):
                 horizontal_mask = subsequent_horizontal_mask
 
             with torch.no_grad():
-                processed_tile = inpaint_pipeline(
+                processed_tile = pipe(
                     prompt="",
                     num_inference_steps=steps,
                     image=tile,
