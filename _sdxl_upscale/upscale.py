@@ -2,7 +2,7 @@ from diffusers import StableDiffusionXLInpaintPipeline as SDXL
 from diffusers import DPMSolverMultistepScheduler as Scheduler
 from PIL import Image, ImageDraw, ImageFilter
 from dotenv import load_dotenv
-import requests, torch, base64, io, runpod
+import requests, torch, base64, io, runpod, os
 
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
