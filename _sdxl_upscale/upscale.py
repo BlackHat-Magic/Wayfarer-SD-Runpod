@@ -29,7 +29,7 @@ def stable_diffusion(job):
     scale = job_input.get("scale", 4.0)
     guidance = job_input.get("guidance", 2.0)
 
-    image = Image.open(io.BytesIO(base64.b64decode(image))).convert("RGB")
+    png = Image.open(io.BytesIO(base64.b64decode(image))).convert("RGB")
     upsampled = png.resize((int(png.width * scale), int(png.height * scale)), Image.LANCZOS)
     width, height = upsampled.size
 
