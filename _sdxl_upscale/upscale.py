@@ -1,8 +1,8 @@
 from diffusers import StableDiffusionXLInpaintPipeline as Inpaint
 from diffusers import StableDiffusionXLImg2ImgPipeline as SDXL
 from diffusers import DPMSolverMultistepScheduler as Scheduler
+from PIL import Image, ImageDraw, ImageFilter
 from dotenv import load_dotenv
-from PIL import Image
 import base64, io, numpy, os, torch, runpod
 
 load_dotenv()
