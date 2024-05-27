@@ -18,9 +18,9 @@ COPY ./.env .
 # copy files
 COPY ./requirements.txt .
 
-COPY ./_sd_upscale/download.py .
+COPY ./_sdxl_upscale/download.py .
 
-COPY ./_sd_upscale/upscale.py .
+COPY ./_sdxl_upscale/upscale.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
