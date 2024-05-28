@@ -32,8 +32,8 @@ def initial_sd_resample(pipe, image, tile_width, tile_height, steps, guidance, s
     tiles = []
     resampled = image.copy()
     width, height = resampled.size
-    for i in range(0, width // (4 / 3), tile_width):
-        for j in range(0, height // (4 / 3), tile_height):
+    for i in range(0, int(width // (4 / 3)), tile_width):
+        for j in range(0, int(height // (4 / 3)), tile_height):
             left_padding = 32
             left = i - 32
             if(left < 0):
