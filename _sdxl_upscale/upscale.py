@@ -156,7 +156,7 @@ def stable_diffusion(job):
     horizontal = fix_seams(pipe, first_pass, tile_width, tile_height, steps, guidance, strength, "v")
 
     with io.BytesIO() as image_binary:
-        fixed_horizontal.save(image_binary, format="PNG")
+        horizontal.save(image_binary, format="PNG")
         send_image = [base64.b64encode(image_binary.getvalue()).decode()]
     return(send_image)
 
