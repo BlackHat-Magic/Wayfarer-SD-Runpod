@@ -66,7 +66,6 @@ def initial_sd_resample(pipe, image, tile_width, tile_height, steps, guidance, s
 
             tile = resampled.crop((left, top, right, bottom))
             og_width, og_height = tile.size
-            arr.append(tile.copy())
             
             tile = tile.resize((1024, 1024), Image.Resampling.LANCZOS)
 
