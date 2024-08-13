@@ -11,9 +11,8 @@ HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
 login(HUGGINGFACE_API_TOKEN)
 
 pipe = Flux.from_pretrained(
-    SDXL_MODEL_PATH, 
+    FLUX_MODEL_PATH, 
     torch_dtype=torch.float16, 
-    variant = "fp16",
     use_safetensors=True
 )
 pipe.enable_model_cpu_offload()
