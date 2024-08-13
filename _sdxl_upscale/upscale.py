@@ -1,11 +1,29 @@
 from diffusers import StableDiffusionXLInpaintPipeline as SDXL
 from diffusers import DPMSolverMultistepScheduler as Scheduler
 from PIL import Image, ImageDraw, ImageFilter
+from botocore.client import Config
 from dotenv import load_dotenv
-import requests, torch, base64, io, runpod, os
+import requests, torch, base64, io, runpod, os, boto3, random
 
 load_dotenv()
 SDXL_MODEL_PATH = os.getenv("SDXL_MODEL_PATH")
+S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
+S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
+S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL")
+S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+S3_REGION_NAME = os.getenv("S3_REGION_NAME")
+
+session = boto3.session.Session()
+s3_client = session.client(
+    "s3",
+    region_name=S3_REGION_NAME,
+    endpoint_url=S3_ENDPOINT_URL,
+    aws_access_key_id=S3_ACCESS_KEY,
+    aws_secret_access_key=S3_SECRET_KEY,
+    config=Config(signature_version="s3v4")
+)
+
+cuid = lambda x: "".join(random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_") for _ in range(x))
 
 pipe = SDXL.from_pretrained(
     SDXL_MODEL_PATH,
@@ -127,6 +145,24 @@ def fix_seams(pipe, image, tile_width, tile_height, steps, guidance, strength, d
     
     return(seams_fix)
 
+def upload_image(image, client, bucket, object_name):
+    try:
+        image_binary = io.BytesIO()
+        image.save(image_binary, format="PNG")
+        image_binary.seek(0)
+
+        client.put_object(
+            Key=object_name, 
+            Bucket=bucket, 
+            Body=image_binary, 
+            ContentType="image/png",
+            ACL="public-read"
+        )
+        return(f"{bucket}/{object_name}")
+    except Exception as e:
+        print(e)
+        return(0)
+
 def stable_diffusion(job):
     job_input = job["input"]
 
@@ -153,11 +189,14 @@ def stable_diffusion(job):
 
     first_pass = initial_sd_resample(pipe, upsampled, tile_width, tile_height, steps, guidance, strength)
     vertical = fix_seams(pipe, first_pass, tile_width, tile_height, steps, guidance, strength, "v")
-    horizontal = fix_seams(pipe, first_pass, tile_width, tile_height, steps, guidance, strength, "v")
+    horizontal = fix_seams(pipe, first_pass, tile_width, tile_height, steps, guidance, strength, "h")
 
-    with io.BytesIO() as image_binary:
-        horizontal.save(image_binary, format="PNG")
-        send_image = [base64.b64encode(image_binary.getvalue()).decode()]
-    return(send_image)
+    object_endpoint = upload_image(horizontal, s3_client, S3_BUCKET_NAME, f"{cuid(8)}.png")
+    if(object_endpoint == 0):
+        full_path = "Error"
+    else:
+        full_path = f"{S3_ENDPOINT_URL}/{object_endpoint}"
+
+    return(full_path)
 
 runpod.serverless.start({"handler": stable_diffusion})
