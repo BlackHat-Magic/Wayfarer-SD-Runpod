@@ -1,6 +1,7 @@
 import runpod, os, torch, base64
 from dotenv import load_dotenv
 from diffusers import FluxPipeline as Flux
+from huggingface_hub import login
 from PIL import Image
 from io import BytesIO
 
