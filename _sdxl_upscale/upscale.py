@@ -19,9 +19,9 @@ BASE_MODEL_PATH = os.getenv("SDXL_UPSCALE_MODEL_PATH")
 # Load S3 Credentials
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
-S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL")
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 S3_REGION_NAME = os.getenv("S3_REGION_NAME")
+S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL")
 
 # initialize S3 session
 session = boto3.session.Session()
