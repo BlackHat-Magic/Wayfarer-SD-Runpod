@@ -12,7 +12,7 @@ load_dotenv()
 
 # load SDXL Model Stuff
 SCHEDULER_MODEL_PATH = os.getenv("SDXL_UPSCALE_SCHEDULER_MODEL_PATH")
-TILE_CONTROLNET_MODEL_PATH = os.getenv("SDXL_TILE_CONTROLNET_MODEL_PATH")
+TILE_CONTROLNET_MODEL_PATH = os.getenv("SDXL_UPSCALE_TILE_CONTROLNET_MODEL_PATH")
 VAE_MODEL_PATH = os.getenv("SDXL_UPSCALE_VAE_MODEL_PATH")
 BASE_MODEL_PATH = os.getenv("SDXL_UPSCALE_MODEL_PATH")
 
@@ -43,7 +43,7 @@ scheduler = Euler.from_pretrained(
     subfolder="scheduler"
 )
 controlnet = CNM.from_pretrained(
-    CONTROLNET_MODEL_PATH,
+    TILE_CONTROLNET_MODEL_PATH,
     torch_dtype=torch.float16
 )
 vae = AKL.from_pretrained(
