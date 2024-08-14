@@ -51,7 +51,7 @@ vae = AKL.from_pretrained(
     torch_dtype=torch.float16
 )
 pipe = SDXL.from_pretrained(
-    BASE_UPSCALE_MODEL_PATH,
+    BASE_MODEL_PATH,
     controlnet=controlnet,
     vae=vae,
     safety_checker=None,
@@ -149,7 +149,7 @@ def stable_diffusion(job):
     # upload image
     try:
         image_binary = io.BytesIO()
-        image.save(image_binary, format="png")
+        upscaled_image.save(image_binary, format="png")
         image_binary.seek(0)
         key = cuid(8)
         s3_client.put_object(
