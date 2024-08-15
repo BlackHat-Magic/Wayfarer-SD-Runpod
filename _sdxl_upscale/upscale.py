@@ -1,7 +1,6 @@
 from diffusers import StableDiffusionXLControlNetInpaintPipeline as SDXL
 from diffusers import EulerAncestralDiscreteScheduler as Euler
 from diffusers import ControlNetModel as CNM
-from diffusers import DDIMScheduler as DDIM
 from diffusers import AutoencoderKL as AKL
 from PIL import Image, ImageDraw, ImageFilter
 from botocore.client import Config

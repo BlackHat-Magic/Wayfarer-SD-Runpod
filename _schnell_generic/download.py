@@ -3,10 +3,7 @@ from dotenv import load_dotenv
 import torch, os
 
 load_dotenv()
-BASE_MODEL_PATH = os.getenv("FLUX_GENERIC_MODEL_PATH")
-HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
-
-login(HUGGINGFACE_API_TOKEN)
+BASE_MODEL_PATH = os.getenv("FLUX_SCHNELL_MODEL_PATH")
 
 pipe = Flux.from_pretrained(
     BASE_MODEL_PATH,

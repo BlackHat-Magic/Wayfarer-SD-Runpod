@@ -1,8 +1,7 @@
 FROM python:3.8-slim-buster
 
 # setup
-ARG FLUX_GENERIC_MODEL_PATHNERIC_MODEL_PATH
-ARG HUGGINGFACE_API_TOKENCE_API_TOKEN
+ARG FLUX_SCHNELL_MODEL_PATH
 ARG S3_ACCESS_KEY
 ARG S3_SECRET_KEY
 ARG S3_BUCKET_NAME
@@ -21,9 +20,9 @@ COPY ./.env .
 # copy files
 COPY ./requirements.txt .
 
-COPY _flux_generic/download.py .
+COPY _schnell_generic/download.py .
 
-COPY _flux_generic/generic.py .
+COPY _schnell_generic/generic.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
