@@ -1,4 +1,5 @@
 from diffusers import FluxPipeline as Flux
+from huggingface_hub import login
 from dotenv import load_dotenv
 import torch, os
 

@@ -27,8 +27,6 @@ s3_client = session.client(
 # function to generate random IDs for images
 cuid = lambda x: "".join(random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_") for _ in range(x))
 
-login(HUGGINGFACE_API_TOKEN)
-
 pipe = Flux.from_pretrained(
     BASE_MODEL_PATH,
     safety_checker=None,
@@ -41,8 +39,8 @@ def flux(job):
 
     prompt = job_input.get("prompt", "A cat using a toaster.")
     # negative_prompt = job_input.get("negative_prompt", "bad quality, worst quality, blurry, out of focus, cropped, out of frame, deformed, bad hands, bad anatomy")
-    height = job_input.get("height", 1440)
-    width = job_input.get("width", 1440)
+    height = job_input.get("height", 1024)
+    width = job_input.get("width", 1024)
     steps = job_input.get("steps", 4)
     guidance = job_input.get("guidance", 5.0)
     num_images = job_input.get("num_images", 1)
