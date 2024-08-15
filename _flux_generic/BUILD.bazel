@@ -1,0 +1,23 @@
+load("@io_bazel_rules_docker//container:image.bzl", "container_image")
+
+container_image(
+    name = "flux_generic_image",
+    base = "@python//image:3.8.19-slim-bullseye",
+    files = [
+        ":download.py",
+        ":generic.py",
+        "//:requirements.txt",
+        "//:.env",
+    ],
+    directory = "/app",
+    env = {
+        "FLUX_GENERIC_MODEL_PATH": "$(FLUX_GENERIC_MODEL_PATH)",
+        "HUGGINGFACE_API_TOKEN": "$(HUGGINGFACE_API_TOKEN)",
+        "S3_ACCESS_KEY": "$(S3_ACCESS_KEY)",
+        "S3_SECRET_KEY": "$(S3_SECRET_KEY)",
+        "S3_BUCKET_NAME": "$(S3_BUCKET_NAME)",
+        "S3_REGION_NAME": "$(S3_REGION_NAME)",
+        "S3_ENDPOINT_URL": "$(S3_ENDPOINT_URL)",
+    },
+    cmd = ["python", "-u", "generic.py"],
+)
