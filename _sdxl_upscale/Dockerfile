@@ -1,4 +1,4 @@
-FROM python:3.9-slim-bullseye
+FROM python:3.9.19-slim-bookworm
 
 # setup
 ARG SDXL_UPSCALE_TILE_CONTROLNET_MODEL_PATH

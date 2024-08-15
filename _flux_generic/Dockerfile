@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.8.19-slim-bullseye
 
 # setup
 ARG FLUX_GENERIC_MODEL_PATHNERIC_MODEL_PATH
