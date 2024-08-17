@@ -1,12 +1,12 @@
-FROM python:3.8.19-slim-bullseye
+FROM python:3.9.19-slim-bookworm
 
 # setup
 ARG FLUX_SCHNELL_MODEL_PATH
-ARG S3_ACCESS_KEY
-ARG S3_SECRET_KEY
-ARG S3_BUCKET_NAME
-ARG S3_REGION_NAME
-ARG S3_ENDPOINT_URL
+# ARG S3_ACCESS_KEY
+# ARG S3_SECRET_KEY
+# ARG S3_BUCKET_NAME
+# ARG S3_REGION_NAME
+# ARG S3_ENDPOINT_URL
 
 RUN apt-get update && \
     apt-get install -y libgl1-mesa-glx libglib2.0-0 && \
@@ -15,14 +15,11 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY ./.env .
-
 # copy files
+COPY ./.env .
 COPY ./requirements.txt .
-
-COPY _schnell_generic/download.py .
-
-COPY _schnell_generic/generic.py .
+COPY ./_schnell_generic/download.py .
+COPY ./_schnell_generic/generic.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 

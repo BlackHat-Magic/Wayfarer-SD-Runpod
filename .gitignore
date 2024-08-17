@@ -6,3 +6,5 @@ img/*
 endpoint_test.py
 endpoint-tester.py
 test_input.json
+**/models/*.safetensors
+huggingfaceapi.key

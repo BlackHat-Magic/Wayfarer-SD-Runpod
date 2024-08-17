@@ -1,5 +1,4 @@
 from diffusers import StableDiffusionXLControlNetInpaintPipeline as SDXL
-from diffusers import EulerAncestralDiscreteScheduler as Euler
 from diffusers import ControlNetModel as CNM
 from diffusers import AutoencoderKL as AKL
 from PIL import Image, ImageDraw, ImageFilter
@@ -10,7 +9,6 @@ import torch, io, base64, boto3, random, os, runpod
 load_dotenv()
 
 # load SDXL Model Stuff
-SCHEDULER_MODEL_PATH = os.getenv("SDXL_UPSCALE_SCHEDULER_MODEL_PATH")
 TILE_CONTROLNET_MODEL_PATH = os.getenv("SDXL_UPSCALE_TILE_CONTROLNET_MODEL_PATH")
 VAE_MODEL_PATH = os.getenv("SDXL_UPSCALE_VAE_MODEL_PATH")
 BASE_MODEL_PATH = os.getenv("SDXL_UPSCALE_MODEL_PATH")
@@ -37,10 +35,6 @@ s3_client = session.client(
 cuid = lambda x: "".join(random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_") for _ in range(x))
 
 # define pipeliens
-scheduler = Euler.from_pretrained(
-    SCHEDULER_MODEL_PATH,
-    subfolder="scheduler"
-)
 controlnet = CNM.from_pretrained(
     TILE_CONTROLNET_MODEL_PATH,
     torch_dtype=torch.float16
@@ -55,7 +49,6 @@ pipe = SDXL.from_pretrained(
     vae=vae,
     safety_checker=None,
     torch_dtype=torch.float16,
-    scheduler=scheduler
 ).to("cuda")
 
 def stable_diffusion(job):

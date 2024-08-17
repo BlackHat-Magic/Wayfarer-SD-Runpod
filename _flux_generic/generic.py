@@ -1,14 +1,11 @@
 from diffusers import FluxPipeline as Flux
 from botocore.client import Config
-from huggingface_hub import login
 from dotenv import load_dotenv
 from PIL import Image
 import base64, boto3, io, os, random, runpod, torch
 
 load_dotenv()
 BASE_MODEL_PATH = os.getenv("FLUX_GENERIC_MODEL_PATH")
-
-HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
 
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
@@ -29,8 +26,6 @@ s3_client = session.client(
 
 # function to generate random IDs for images
 cuid = lambda x: "".join(random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_") for _ in range(x))
-
-login(HUGGINGFACE_API_TOKEN)
 
 pipe = Flux.from_pretrained(
     BASE_MODEL_PATH,

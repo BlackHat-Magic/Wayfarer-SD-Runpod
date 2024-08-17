@@ -5,11 +5,11 @@ ARG SDXL_UPSCALE_TILE_CONTROLNET_MODEL_PATH
 ARG SDXL_UPSCALE_SCHEDULER_MODEL_PATH
 ARG SDXL_UPSCALE_VAE_MODEL_PATH
 ARG SDXL_UPSCALE_BASE_MODEL_PATH
-ARG S3_ACCESS_KEY
-ARG S3_SECRET_KEY
-ARG S3_BUCKET_NAME
-ARG S3_REGION_NAME
-ARG S3_ENDPOINT_URL
+# ARG S3_ACCESS_KEY
+# ARG S3_SECRET_KEY
+# ARG S3_BUCKET_NAME
+# ARG S3_REGION_NAME
+# ARG S3_ENDPOINT_URL
 
 
 RUN apt-get update && \
@@ -19,13 +19,10 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY ./.env .
-
 # copy files
+COPY ./.env .
 COPY ./requirements.txt .
-
 COPY ./_sdxl_upscale/download.py .
-
 COPY ./_sdxl_upscale/upscale.py .
 
 RUN pip install --no-cache-dir -r requirements.txt

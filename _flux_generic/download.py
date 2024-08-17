@@ -1,11 +1,13 @@
 from diffusers import FluxPipeline as Flux
 from huggingface_hub import login
 from dotenv import load_dotenv
-import torch, os
+import torch, os, argparse
 
 load_dotenv()
 BASE_MODEL_PATH = os.getenv("FLUX_GENERIC_MODEL_PATH")
-HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
+
+with open("./huggingfaceapi.key") as f:
+    HUGGINGFACE_API_TOKEN = f.read()
 
 login(HUGGINGFACE_API_TOKEN)
 

@@ -5,7 +5,7 @@ from PIL import Image
 import base64, boto3, io, os, random, runpod, torch
 
 load_dotenv()
-BASE_MODEL_PATH = os.getenv("FLUX_SCHNELL_MODEL_PATH")
+BASE_MODEL_FILENAME = os.getenv("FLUX_SCHNELL_FILENAME")
 
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
@@ -27,8 +27,8 @@ s3_client = session.client(
 # function to generate random IDs for images
 cuid = lambda x: "".join(random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_") for _ in range(x))
 
-pipe = Flux.from_pretrained(
-    BASE_MODEL_PATH,
+pipe = Flux.from_single_file(
+    BASE_MODEL_FILENAME,
     safety_checker=None,
     torch_dtype=torch.bfloat16,
 )
@@ -43,7 +43,7 @@ def flux(job):
     width = job_input.get("width", 1024)
     steps = job_input.get("steps", 4)
     guidance = job_input.get("guidance", 5.0)
-    num_images = job_input.get("num_images", 1)
+    num_images = job_input.get("num_images", 4)
 
     # denoising_strength = job_input.get("denoising_strength", 0)
     # seed = job_input.get("seed", -1)
