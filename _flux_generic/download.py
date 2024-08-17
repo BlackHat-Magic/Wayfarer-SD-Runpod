@@ -7,7 +7,7 @@ load_dotenv()
 BASE_MODEL_PATH = os.getenv("FLUX_GENERIC_MODEL_PATH")
 
 with open("./huggingfaceapi.key") as f:
-    HUGGINGFACE_API_TOKEN = f.read()
+    HUGGINGFACE_API_TOKEN = str(f.read())
 
 login(HUGGINGFACE_API_TOKEN)
 
