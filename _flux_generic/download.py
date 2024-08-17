@@ -7,7 +7,8 @@ load_dotenv()
 BASE_MODEL_PATH = os.getenv("FLUX_GENERIC_MODEL_PATH")
 
 with open("./huggingfaceapi.key") as f:
-    HUGGINGFACE_API_TOKEN = str(f.read())
+    # remove trailing whitespace because apparently nano and neovim are incapable of not adding a newline at the end for some goddamned reason
+    HUGGINGFACE_API_TOKEN = str(f.read()).replace('\n', '')
 
 login(HUGGINGFACE_API_TOKEN)
 
