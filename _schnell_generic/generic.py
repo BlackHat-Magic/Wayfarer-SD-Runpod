@@ -27,7 +27,7 @@ s3_client = session.client(
 # function to generate random IDs for images
 cuid = lambda x: "".join(random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_") for _ in range(x))
 
-pipe = Flux.from_single_file(
+pipe = Flux.from_pretrained(
     BASE_MODEL_FILENAME,
     safety_checker=None,
     torch_dtype=torch.bfloat16,
