@@ -56,7 +56,7 @@ def stable_diffusion(job):
     job_input = job["input"]
     prompt = job_input.get("prompt", "")
     negative_prompt = job_input.get("negative_prompt", "")
-    steps = job_input.get("steps", 30)
+    steps = job_input.get("steps", 10)
     scale = job_input.get("scale", 4)
     guidance = job_input.get("guidance", 5.0)
     mask_blur = job_input.get("mask_blur", 48)

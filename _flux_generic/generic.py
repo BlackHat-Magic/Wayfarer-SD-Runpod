@@ -42,7 +42,7 @@ def flux(job):
     height = job_input.get("height", 1024)
     width = job_input.get("width", 1024)
     steps = job_input.get("steps", 30)
-    guidance = job_input.get("guidance", 5.0)
+    guidance = job_input.get("guidance", 3.5)
     num_images = job_input.get("num_images", 1)
 
     # denoising_strength = job_input.get("denoising_strength", 0)

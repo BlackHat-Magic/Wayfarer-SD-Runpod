@@ -5,7 +5,7 @@ from PIL import Image
 import base64, boto3, io, os, random, runpod, torch
 
 load_dotenv()
-BASE_MODEL_FILENAME = os.getenv("FLUX_SCHNELL_FILENAME")
+BASE_MODEL_FILENAME = os.getenv("FLUX_SCHNELL_MODEL_PATH")
 
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
@@ -42,7 +42,7 @@ def flux(job):
     height = job_input.get("height", 1024)
     width = job_input.get("width", 1024)
     steps = job_input.get("steps", 4)
-    guidance = job_input.get("guidance", 5.0)
+    guidance = job_input.get("guidance", 0.0)
     num_images = job_input.get("num_images", 4)
 
     # denoising_strength = job_input.get("denoising_strength", 0)
@@ -60,6 +60,7 @@ def flux(job):
         num_inference_steps=steps,
         guidance_scale=guidance,
         num_images_per_prompt=num_images,
+        max_sequence_length=256
         # clip_skip=-2
     ).images
 
