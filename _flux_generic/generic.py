@@ -60,6 +60,7 @@ def flux(job):
         num_inference_steps=steps,
         guidance_scale=guidance,
         num_images_per_prompt=num_images,
+        max_sequence_length=512
         # clip_skip=-2
     ).images
 
